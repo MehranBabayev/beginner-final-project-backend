@@ -1,0 +1,94 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    <title>EShopper - Product list</title>
+{% endblock %}
+
+
+{% block content %}
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Shop Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+                    {% for p in price %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <a href="{{url_for('filter_price', name = p.price_name)}}"><label>{{p.price_name}}</label></a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Price End -->
+                
+                <!-- Color Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
+                    {% for c in color %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <a href="{{url_for('filter_color', name = c.name)}}"><label>{{c.name}}</label></a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Color End -->
+
+                <!-- Size Start -->
+                <div class="mb-5">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
+                    {% for s in size %}
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <a href="{{url_for('filter_size', name = s.name)}}"><label>{{s.name}}</label></a>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Size End -->
+            </div>
+            <!-- Shop Sidebar End -->
+
+
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
+                <div class="row pb-3">
+                    {% if count < 1 %}
+                    <div class="col-lg-12 py-5 px-5 d-flex align-items-center justify-content-center" style="height: 500px;">
+                        <h4 class="text-center text-danger fw-600">Unfortunately, no product in our stock!!!</h4>
+                    </div>
+                    {% endif %}
+                    {% for Product in Products %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="img-fluid w-100" src="{{ url_for('static', filename='img/') }}{{ Product.image_url }}" alt="">
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">{{Product.name}}</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$ {{Product.new_price}}</h6><h6 class="text-muted ml-2"><del>$ {{Product.price}}</del></h6>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                <a href="/detail/{{Product.id}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+            <!-- Shop Product End -->
+        </div>
+    </div>
+    <!-- Shop End -->
+
+{% endblock %}
